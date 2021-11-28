@@ -1,0 +1,7 @@
+# loop z from 1 to 10 (inclusive), increment by 2
+for z <- 1:10:2
+	z <- foo_add(z, 1)
+	out “z = “ z
+
+
+# I don't understand what is z for in this loop
