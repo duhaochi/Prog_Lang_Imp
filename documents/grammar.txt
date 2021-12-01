@@ -3,7 +3,7 @@ stmt_list : (stmt)*
 stmt :  data_type ID decl_suffix?
      |  VOID_TYPE ID LPAREN formal_args? RPAREN stmt
      |  ID id_suffix
-     |  OUT exp
+     |  OUTexp
      |  RETURN exp?
      |  WHILE exp stmt
      |  IF exp stmt (ELSE stmt)?
