@@ -21,7 +21,7 @@ token_specs = [
     ('IF',          r'if'),
     ('ELSE',        r'else'),
     ('NOT',         r'not'),
-    ('ID',          r'[a-zA-Z][a-zA-Z0-9_]*'),
+    ('OUT',         r'out'),
     ('PLUS',        r'\+'),
     ('MINUS',       r'-'),
     ('MUL',         r'\*'),
@@ -37,10 +37,11 @@ token_specs = [
     ('RBRACKET',    r'\]'),
     ('COMMA',       r','),
     ('COLON',       r':'),
-    ('OUT',         r'out'),
     ('IN',          r'in'),
     ('WHITESPACE',  r'[ \t\n]+'),
-    ('UNKNOWN',     r'.'),
+    ('ID',          r'[a-zA-Z][a-zA-Z0-9_]*'),
+
+    ('UNKNOWN', r'.'),
 ]
 
 # used for sanity checking in lexer.
@@ -62,12 +63,16 @@ def tokenize(code):
     for mo in match_object_list:
         type = mo.lastgroup
         value = mo.group()
-        if type in ['WHITESPACE','COMMENT']:
+        if type in ['NUMBER']:
+            type = 'FLOAT' if '.' in value else 'INTEGER'
+            value = float(value) if type == 'FLOAT' else int(value)
+        elif type in ['STRING']:
+            value = value[1:-1]
+        elif type in ['WHITESPACE','COMMENT']:
             continue #ignore
         elif type == 'UNKNOWN':
             raise ValueError("unexpected character '{}'".format(value))
-        else:
-            tokens.append(Token(type, value))
+        tokens.append(Token(type, value))
     tokens.append(Token('EOF', '\eof'))
     return tokens
 
