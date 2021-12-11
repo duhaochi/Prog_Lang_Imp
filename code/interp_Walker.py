@@ -302,6 +302,10 @@ def if_stmt(node):
     return None
 
 #########################################################################
+def for_stmt(node):
+    return None
+
+#########################################################################
 def block_stmt(node):
 
     (BLOCK, stmt_list) = node
@@ -471,20 +475,21 @@ def walk(node):
 dispatch = {
     'STMTLIST'     : stmtlist,
     'NIL'          : nil,
-    'FUNDECL'      : fundecl_stmt,
-    'VARDECL'      : vardecl_stmt,
-    'ARRAYDECL'    : arraydecl_stmt,
+    'FUNC_DECL'    : fundecl_stmt,
+    'VAR_DECL'     : vardecl_stmt,
+    'ARR_DECL'     : arraydecl_stmt,
     'ASSIGN'       : assign_stmt,
     'GET'          : get_stmt,
     'OUT'          : put_stmt,
-    'CALLSTMT'     : call_stmt,
+    'CALL_STMT'    : call_stmt,
     'RETURN'       : return_stmt,
     'WHILE'        : while_stmt,
     'IF'           : if_stmt,
+    'FOR'          : for_stmt,
     'BLOCK'        : block_stmt,
     'CONST'        : const_exp,
     'ID'           : id_exp,
-    'CALLEXP'      : call_exp,
+    'CALL_EXP'     : call_exp,
     'PAREN'        : paren_exp,
     'PLUS'         : plus_exp,
     'MINUS'        : minus_exp,
@@ -494,5 +499,5 @@ dispatch = {
     'LE'           : le_exp,
     'UMINUS'       : uminus_exp,
     'NOT'          : not_exp,
-    'ARRAY_ACCESS' : array_access_exp,
+    'ARR_ACCESS'   : array_access_exp,
 }
