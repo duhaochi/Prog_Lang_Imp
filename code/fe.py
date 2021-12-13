@@ -112,24 +112,24 @@ def stmt(stream):
             if e[0] == 'FUNCTION':
                 (FUNCTION, args, body) = e
                 arg_types = formalargs_type(args)
-                return ('FUNC_DECL',
+                return ('FUNCDECL',
                         ('ID', id_tok.value),
                         ('FUNC_TYPE', type, arg_types),
                         args,
                         body)
             elif e[0] == 'EXP_INIT':
-                return ('VAR_DECL',
+                return ('VARDECL',
                         ('ID', id_tok.value),
                         type,
                         e[1])
             elif e[0] == 'ARR_INIT':
-                return ('ARR_DECL',
+                return ('ARRDECL',
                         ('ID', id_tok.value),
                         type,
                         e[1])
         # else if there is no decl_suffix
         else:
-            return ('VAR_DECL',
+            return ('VARDECL',
                     ('ID', id_tok.value),
                     type,
                     None)
