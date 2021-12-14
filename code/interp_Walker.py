@@ -303,6 +303,14 @@ def if_stmt(node):
 
 #########################################################################
 def for_stmt(node):
+    (FOR, Begin, End, Inc, body) = node
+    Begin = walk(Begin)
+    End = walk(End)
+
+    inc = walk(Inc)
+
+    for x in range(Begin[1], End[1], inc[1]):
+        walk(body)
     return None
 
 #########################################################################

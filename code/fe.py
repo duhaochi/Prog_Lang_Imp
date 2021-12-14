@@ -180,7 +180,9 @@ def stmt(stream):
         range_end = exp(stream)
         stream.match('COLON')
         increment = exp(stream)
-        body = stmt(stream)
+        stream.match('DO')
+        body = stmt_list(stream)
+        stream.match('END')
         return ('FOR', range_start, range_end, increment, body)
     elif stream.pointer().type in ['DO']:
         stream.match('DO')

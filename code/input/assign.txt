@@ -1,2 +1,2 @@
 int x <- 10
-out x
+out "x = " + x

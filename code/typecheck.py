@@ -272,6 +272,11 @@ def eq_exp(node):
     return ('INT_TYPE',)
 
 #########################################################################
+def for_stmt(node):
+    return None
+
+
+#########################################################################
 def le_exp(node):
 
     (LE,c1,c2) = node
@@ -382,6 +387,7 @@ dispatch = {
     'OUT'          : put_stmt,
     'CALLSTMT'     : call_stmt,
     'RETURN'       : return_stmt,
+    'FOR'          : for_stmt,
     'WHILE'        : while_stmt,
     'IF'           : if_stmt,
     'BLOCK'        : block_stmt,
