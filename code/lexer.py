@@ -12,6 +12,7 @@ token_specs = [
     ('STRING_TYPE', r'string'),
     ('VOID_TYPE',   r'void'),
     ('ARR_TYPE',    r'arr'),
+    ('FUNC',        r'func'),
     ('STRING',      r'\"[^\"]*\"'),
     ('NUMBER',      r'([0-9]*[.])?[0-9]+'), # integer and float
     ('BOOL',        r'(true|false)'),
@@ -39,8 +40,9 @@ token_specs = [
     ('COLON',       r':'),
     ('IN',          r'in'),
     ('WHITESPACE',  r'[ \t\n]+'),
+    ('DO',          r'do'),
+    ('END',         r'end'),
     ('ID',          r'[a-zA-Z][a-zA-Z0-9_]*'),
-
     ('UNKNOWN', r'.'),
 ]
 
@@ -64,7 +66,7 @@ def tokenize(code):
         type = mo.lastgroup
         value = mo.group()
         if type in ['NUMBER']:
-            type = 'FLOAT' if '.' in value else 'INTEGER'
+            type = 'FLOAT' if '.' in value else 'INT'
             value = float(value) if type == 'FLOAT' else int(value)
         elif type in ['STRING']:
             value = value[1:-1]
@@ -113,12 +115,10 @@ if __name__ == "__main__":
 
     prgm = \
     '''
-    # test 1
-    int x <- 12
-    int y <- 5
-    # test 2
-    int z <- x + y
-    out z
+    while x =< 4
+    do
+      x <- x + 1
+    end
     '''
     lexer = Lexer(prgm)
 

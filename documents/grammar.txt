@@ -1,47 +1,52 @@
 stmt_list : (stmt)*
 
-stmt :  data_type ID decl_suffix?
-     |  VOID_TYPE ID LPAREN formal_args? RPAREN stmt
-     |  ID id_suffix
-     |  OUTexp
-     |  RETURN exp?
-     |  WHILE exp stmt
-     |  IF exp stmt (ELSE stmt)?
-     |  FOR (INT_TYPE? ID ASSIGN)? exp COLON exp COLON exp stmt
-     |  stmt_list
+stmt :  {VOID_TYPE} VOID_TYPE ID LPAREN formal_args? RPAREN stmt
+     |  {BOOL_TYPE,INT_TYPE,FLOAT_TYPE,FRACT_TYPE,STRING_TYPE} data_type ID decl_suffix?
+     |  {ID} ID id_suffix
+     |  {OUT} OUT exp
+     |  {RETURN} RETURN exp?
+     |  {WHILE} WHILE exp stmt
+     |  {IF} IF exp stmt (ELSE stmt)?
+     |  {FOR} FOR (INT_TYPE? ID ASSIGN)? exp COLON exp COLON exp stmt
+     |  {DO} DO stmt_list END
 
-data_type :  BOOL_TYPE ARR_TYPE?
-          |  INT_TYPE ARR_TYPE?
-          |  FLOAT_TYPE ARR_TYPE?
-          |  FRACT_TYPE ARR_TYPE?
-          |  STRING_TYPE ARR_TYPE?
+data_type :  primitive_type ARR_TYPE?
 
-decl_suffix :  LPAREN formal_args? RPAREN stmt
-            |  ASSIGN exp
+primitive_type :  {BOOL_TYPE} BOOL_TYPE
+               |  {INT_TYPE} INT_TYPE
+               |  {FLOAT_TYPE} FLOAT_TYPE
+               |  {FRACT_TYPE} FRACT_TYPE
+               |  {STRING_TYPE} STRING_TYPE
 
-id_suffix :  LPAREN actual_args? RPAREN (LBRACKET exp RBRACKET ASSIGN exp)?
-          |  LBRACKET exp RBRACKET (LPAREN actual_args? RPAREN)?
-          |  ASSIGN exp
+decl_suffix :  {LPAREN} LPAREN formal_args? RPAREN stmt
+            |  {ASSIGN} ASSIGN exp
 
-exp :  exp_low
-exp_low :  exp_med ((EQ|LE) exp_med)*
-exp_med :  exp_high ((PLUS|MINUS) exp_high)*
-exp_high :  primary ((MUL|DIV) primary)*
+id_suffix :  {LPAREN} LPAREN actual_args? RPAREN (LBRACKET exp RBRACKET ASSIGN exp)?
+          |  {LBRACKET} LBRACKET exp RBRACKET (LPAREN actual_args? RPAREN)?
+          |  {ASSIGN} ASSIGN exp
 
-primary :  BOOL
-        |  INT
-        |  FLOAT
-        |  FRACT
-        |  STRING
-        |  ID (LPAREN actual_args? RPAREN)?
-        |  LPAREN exp RPAREN
-        |  MINUS primary
-        |  NOT primary
-        |  INPUT STRING?
-        |  LBRACKET (exp (COMMA exp)*)? RBRACKET
+exp :  {BOOL,INT,FLOAT,FRACT,STRING,ID,LPAREN,MINUS,NOT,IN,LBRACKET} exp_low
+exp_low :  {BOOL,INT,FLOAT,FRACT,STRING,ID,LPAREN,MINUS,NOT,IN,LBRACKET} exp_med ((EQ|LE) exp_med)*
+exp_med :  {BOOL,INT,FLOAT,FRACT,STRING,ID,LPAREN,MINUS,NOT,IN,LBRACKET} exp_high ((PLUS|MINUS) exp_high)*
+exp_high :  {BOOL,INT,FLOAT,FRACT,STRING,ID,LPAREN,MINUS,NOT,IN,LBRACKET} primary ((MUL|DIV) primary)*
 
-formal_args :  data_type ID (COMMA data_type ID)*
-actual_args :  exp (COMMA exp)*
+primary :  {BOOL} BOOL
+        |  {INT} INT
+        |  {FLOAT} FLOAT
+        |  {FRACT} FRACT
+        |  {STRING} STRING
+        |  {ID} ID ({LPAREN,LBRACKET} id_exp_suffix)?
+        |  {LPAREN} LPAREN exp RPAREN
+        |  {MINUS} MINUS primary
+        |  {NOT} NOT primary
+        |  {IN} IN STRING?
+        |  {LBRACKET} LBRACKET (exp (COMMA exp)*)? RBRACKET
+
+id_exp_suffix :  {LPAREN} LPAREN actual_args? RPAREN (LBRACKET exp RBRACKET)?
+              |  {LBRACKET} LBRACKET exp RBRACKET
+
+formal_args :  {BOOL_TYPE,INT_TYPE,FLOAT_TYPE,FRACT_TYPE,STRING_TYPE} data_type ID (COMMA data_type ID)*
+actual_args :  {BOOL,INT,FLOAT,FRACT,STRING,ID,LPAREN,MINUS,NOT,IN,LBRACKET} exp (COMMA exp)*
 
 ID :  <any valid variable name>
 BOOL :  True | False
