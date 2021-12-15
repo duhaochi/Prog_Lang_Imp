@@ -309,7 +309,7 @@ def call_exp(node):
 
     type = symtab.lookup_sym(name)
 
-    if type[0] != 'FUNCTION_TYPE':
+    if type[0] != 'FUNC_TYPE':
         raise ValueError("{} is not a function".format(name))
 
     return check_call(type, actual_args)
@@ -393,7 +393,7 @@ dispatch = {
     'BLOCK'        : block_stmt,
     'CONST'        : const_exp,
     'ID'           : id_exp,
-    'CALLEXP'      : call_exp,
+    'CALL_EXP'      : call_exp,
     'PAREN'        : paren_exp,
     'PLUS'         : plus_exp,
     'MINUS'        : minus_exp,

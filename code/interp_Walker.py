@@ -483,7 +483,7 @@ def walk(node):
 dispatch = {
     'STMTLIST'     : stmtlist,
     'NIL'          : nil,
-    'FUNCDECL'    : fundecl_stmt,
+    'FUNDECL'    : fundecl_stmt,
     'VARDECL'     : vardecl_stmt,
     'ARRDECL'     : arraydecl_stmt,
     'ASSIGN'       : assign_stmt,

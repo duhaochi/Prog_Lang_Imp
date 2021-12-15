@@ -37,6 +37,7 @@ primitive_lookahead = [
     'FLOAT_TYPE',
     'FRACT_TYPE',
     'STRING_TYPE',
+    'FUNC'
     ]
 
 exp_lookahead = [
@@ -61,6 +62,7 @@ stmt_lookahead = [
     'FRACT_TYPE',
     'STRING_TYPE',
     'VOID_TYPE',
+    'FUNC',
     'ID',
     'OUT',
     'RETURN',
@@ -104,6 +106,8 @@ def stmt(stream):
                 args, 
                 body)
     elif stream.pointer().type in primitive_lookahead:
+        if stream.pointer().type in ['FUNC']:
+            stream.match('FUNC')
         type = data_type(stream)
         id_tok = stream.match('ID')
         # if there is a decl_suffix
@@ -112,7 +116,7 @@ def stmt(stream):
             if e[0] == 'FUNCTION':
                 (FUNCTION, args, body) = e
                 arg_types = formalargs_type(args)
-                return ('FUNCDECL',
+                return ('FUNDECL',
                         ('ID', id_tok.value),
                         ('FUNC_TYPE', type, arg_types),
                         args,
@@ -132,7 +136,7 @@ def stmt(stream):
             return ('VARDECL',
                     ('ID', id_tok.value),
                     type,
-                    None)
+                    ('CONST', ('INT_TYPE',), ('VALUE', 0)))
     elif stream.pointer().type in ['ID']:
         id_tok = stream.match('ID')
         e = id_suffix(stream)
@@ -189,6 +193,15 @@ def stmt(stream):
         e = stmt_list(stream)
         stream.match('END')
         return ('BLOCK', e)
+    elif stream.pointer().type in ['FUNC']:
+        stream.match('FUNC')
+        (FUNCTION, args, body) = e
+        arg_types = formalargs_type(args)
+        return ('FUNCDECL',
+                ('ID', id_tok.value),
+                ('FUNC_TYPE', type, arg_types),
+                args,
+                body)
     else:
         raise SyntaxError("stmt: syntax error at {}".format(stream.pointer().value))
 
@@ -237,7 +250,9 @@ def decl_suffix(stream):
         else:
             args = ('LIST', [])
         stream.match('RPAREN')
+        stream.match('DO')
         body = stmt(stream)
+        stream.match('END')
         return ('FUNCTION', args, body)
     elif stream.pointer().type in ['ASSIGN']:
         stream.match('ASSIGN')
