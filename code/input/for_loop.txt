@@ -4,4 +4,3 @@ for 1:10:2
 do
 	z <- z + 1
 	out z
-end

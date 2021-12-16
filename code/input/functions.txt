@@ -1,4 +1,10 @@
-func int foo(int x)
+
+func int foo_add(int a, int b)
 do
-  out x
+    return a + b
 end
+
+int addition
+addition <- foo_add(1, 8)
+
+out "addition = " + addition
