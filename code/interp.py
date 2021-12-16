@@ -12,7 +12,7 @@ from dumpast import dumpast
 def interp(input_stream, fe_ast=False, exceptions=False):
     try:
         ast = parse(input_stream)
-        if 1:
+        if fe_ast:
             dumpast(ast)
             sys.exit(0)
         symtab.initialize()

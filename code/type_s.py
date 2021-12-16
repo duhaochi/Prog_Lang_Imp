@@ -7,7 +7,6 @@
 '''
 This module implements the Cuppa5 type coercion system through a set
 of tables.  These tables implement the type hierarchy
-
          INT_TYPE < FLOAT_TYPE < STRING_TYPE
          ARRAY_TYPE
          VOID_TYPE

@@ -303,6 +303,14 @@ def if_stmt(node):
 
 #########################################################################
 def for_stmt(node):
+    (FOR, Begin, End, Inc, body) = node
+    Begin = walk(Begin)
+    End = walk(End)
+
+    inc = walk(Inc)
+
+    for x in range(Begin[1], End[1], inc[1]):
+        walk(body)
     return None
 
 #########################################################################
@@ -475,9 +483,9 @@ def walk(node):
 dispatch = {
     'STMTLIST'     : stmtlist,
     'NIL'          : nil,
-    'FUNC_DECL'    : fundecl_stmt,
-    'VAR_DECL'     : vardecl_stmt,
-    'ARR_DECL'     : arraydecl_stmt,
+    'FUNDECL'    : fundecl_stmt,
+    'VARDECL'     : vardecl_stmt,
+    'ARRDECL'     : arraydecl_stmt,
     'ASSIGN'       : assign_stmt,
     'GET'          : get_stmt,
     'OUT'          : put_stmt,

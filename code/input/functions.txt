@@ -1,0 +1,4 @@
+func int foo(int x)
+do
+  out x
+end

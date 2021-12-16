@@ -12,6 +12,7 @@ token_specs = [
     ('STRING_TYPE', r'string'),
     ('VOID_TYPE',   r'void'),
     ('ARR_TYPE',    r'arr'),
+    ('FUNC',        r'func'),
     ('STRING',      r'\"[^\"]*\"'),
     ('NUMBER',      r'([0-9]*[.])?[0-9]+'), # integer and float
     ('BOOL',        r'(true|false)'),
