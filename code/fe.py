@@ -1,9 +1,7 @@
 '''
 Frontend for our language - builds an AST where each
 node is of the shape,
-
     (TYPE, [arg1, arg2, arg3,...])
-
 here TYPE is a string describing the node type.
 '''
 
@@ -15,9 +13,7 @@ here TYPE is a string describing the node type.
 '''
 Frontend for our Cuppa5 language - builds an AST where each
 node is of the shape,
-
     (TYPE, [arg1, arg2, arg3,...])
-
 here TYPE is a string describing the node type.
 '''
 # helper function to compute the type of a function

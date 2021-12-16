@@ -1,0 +1,6 @@
+fract x <- 5 / 2
+fract y <- x / 4
+fract z <- x * y
+x <- z + x
+
+out z

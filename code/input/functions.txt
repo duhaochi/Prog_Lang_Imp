@@ -1,3 +1,4 @@
+
 func int foo_add(int a, int b)
 do
     return a + b

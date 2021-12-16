@@ -1,0 +1,10 @@
+int x <- 5
+if x == 1 do 
+  out 1
+end
+else if x == 2 do
+  out 2
+end
+else do
+  out 0
+end
