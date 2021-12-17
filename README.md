@@ -5,3 +5,9 @@ This is a programming language implementation by Haochi &amp; Andy
   they need to be finilized, it is the test for the completness of the language
   - location:
     code -> input
+
+
+## working feature
+- assignment statment
+- for loops
+- function declaration
