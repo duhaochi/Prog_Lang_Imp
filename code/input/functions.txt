@@ -1,4 +1,8 @@
 func int foo(int x)
 do
   out x
+  return x
 end
+
+int a <- foo(3)
+out a

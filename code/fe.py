@@ -75,7 +75,7 @@ def stmt_list(stream):
         lst.append(s)
     return ('STMTLIST', lst)
 
-# stmt :  {VOID_TYPE} VOID_TYPE ID LPAREN formal_args? RPAREN stmt
+# stmt :  {FUNC} FUNC data_type ID LPAREN formal_args? RPAREN stmt
 #      |  {BOOL_TYPE,INT_TYPE,FLOAT_TYPE,FRACT_TYPE,STRING_TYPE} data_type ID decl_suffix?
 #      |  {ID} ID id_suffix
 #      |  {OUT} OUT exp
@@ -87,6 +87,7 @@ def stmt_list(stream):
 def stmt(stream):
     if stream.pointer().type in ['VOID_TYPE']:
         stream.match('VOID_TYPE')
+        #todo match func keyword
         ret_type = ('VOID_TYPE',)
         id_tok = stream.match('ID')
         stream.match('LPAREN')
@@ -96,7 +97,7 @@ def stmt(stream):
         stream.match('RPAREN')
         arg_types = formalargs_type(args)
         body = stmt(stream)
-        return ('FUNC_DECL', 
+        return ('FUNDECL', 
                 ('ID', id_tok.value), 
                 ('FUNC_TYPE', ret_type, arg_types), 
                 args, 
@@ -171,9 +172,6 @@ def stmt(stream):
         else:
             return ('IF', cond, body, ('NIL',))
     elif stream.pointer().type in ['FOR']:
-        #todo this only allows the syntax: for 1:10:2
-        #todo allow the syntax: for x <- 1:10:2
-        #todo allow the syntax: for int x <- 1:10:2
         stream.match('FOR')
         range_start = exp(stream)
         stream.match('COLON')
@@ -193,7 +191,7 @@ def stmt(stream):
         stream.match('FUNC')
         (FUNCTION, args, body) = e
         arg_types = formalargs_type(args)
-        return ('FUNCDECL',
+        return ('FUNDECL',
                 ('ID', id_tok.value),
                 ('FUNC_TYPE', type, arg_types),
                 args,
@@ -246,20 +244,22 @@ def decl_suffix(stream):
         else:
             args = ('LIST', [])
         stream.match('RPAREN')
-        stream.match('DO')
+        # stream.match('DO')
         body = stmt(stream)
-        stream.match('END')
+        # stream.match('END')
         return ('FUNCTION', args, body)
     elif stream.pointer().type in ['ASSIGN']:
         stream.match('ASSIGN')
         if stream.pointer().type in exp_lookahead:
             ie = exp(stream)
-            if ie[0] == 'CONST':
+            if ie[0] == 'CONST' or ie[0] == 'ID':
+                e = ('EXP_INIT', ie)
+            elif ie[0] in ['PLUS', 'MINUS', 'MUL', 'DIV', 'EQ', 'LE']:
                 e = ('EXP_INIT', ie)
             elif ie[0] == 'LIST':
                 e = ('ARR_INIT', ie)
             else:
-                raise ValueError("only constants are allowed in initializers")
+                raise ValueError("only constants are allowed in initializers. Invalid: {}".format(ie[0]))
             return e
     else:
         raise SyntaxError("id_suffix: syntax error at {}".format(stream.pointer().value))

@@ -373,7 +373,9 @@ def walk(node):
 
     if type in dispatch:
         node_function = dispatch[type]
-        return node_function(node)
+        nf = node_function(node)
+        # return node_function(node)
+        return nf
     else:
         raise ValueError("walk: unknown tree node type: " + type)
 
@@ -387,7 +389,7 @@ dispatch = {
     'ASSIGN'       : assign_stmt,
     'GET'          : get_stmt,
     'OUT'          : put_stmt,
-    'CALLSTMT'     : call_stmt,
+    'CALL_STMT'     : call_stmt,
     'RETURN'       : return_stmt,
     'FOR'          : for_stmt,
     'WHILE'        : while_stmt,
