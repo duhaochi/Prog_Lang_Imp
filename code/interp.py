@@ -3,8 +3,8 @@
 #!/usr/bin/env python
 # Cuppa5 interpreter
 
-# from fe import parse
-from fe2 import parse
+from fe import parse
+# from fe2 import parse
 from symtab import symtab
 from typecheck import walk as typecheck
 from interp_Walker import walk as run

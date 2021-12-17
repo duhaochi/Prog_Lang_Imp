@@ -1,8 +1,4 @@
-int c <- 0
-c <- 1 + 2
-out c
-
-# int x <- 3
-# int y <- 4
-# y <- x + y
-# out y
+int x <- 3
+int y <- 4
+y <- x + y + 2
+out y
