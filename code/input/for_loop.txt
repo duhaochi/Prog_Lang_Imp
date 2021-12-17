@@ -1,6 +1,6 @@
 # loop z from 1 to 10 (inclusive), increment by 2
-int z
+int z <- 3
 for 1:10:2
 do
-	z <- z + 1
+	# z <- z + 1
 	out z

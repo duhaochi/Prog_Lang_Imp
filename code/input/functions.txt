@@ -1,10 +1,10 @@
 
 func int foo_add(int a, int b)
 do
-    return a + b
+  out x
+  return x
 end
 
-int addition
-addition <- foo_add(1, 8)
+int a <- foo(3)
+out a
 
-out "addition = " + addition
