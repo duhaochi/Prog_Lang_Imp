@@ -307,7 +307,6 @@ def primary(stream):
         else:
             raise SyntaxError("not operator expects a bool-compatible value")
         return ('CONST', ('BOOL_TYPE',), ('VALUE', v))
-    # todo IN
     else:
         raise SyntaxError("primary: syntax error at {}".format(stream.pointer().value))
 
