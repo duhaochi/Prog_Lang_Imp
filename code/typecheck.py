@@ -2,7 +2,7 @@
    
 # the type checker......
 
-# A tree walker to typecheck Cuppa5 programs
+# A tree walker to typecheck programs
 
 from symtab import symtab
 from type_s import promote, safe_assign
@@ -374,7 +374,6 @@ def walk(node):
     if type in dispatch:
         node_function = dispatch[type]
         nf = node_function(node)
-        # return node_function(node)
         return nf
     else:
         raise ValueError("walk: unknown tree node type: " + type)
